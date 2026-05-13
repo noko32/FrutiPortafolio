@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useRef, type ReactNode } from "react";
 import Lenis from "lenis";
 import { gsap, ScrollTrigger } from "@/lib/gsap-config";
+import { prefersReducedMotion } from "@/lib/motion-prefs";
 
 const LenisContext = createContext<Lenis | null>(null);
 
@@ -17,7 +18,11 @@ export default function SmoothScrollProvider({
 }) {
   const lenisRef = useRef<Lenis | null>(null);
 
-  if (!lenisRef.current && typeof window !== "undefined") {
+  if (
+    !lenisRef.current &&
+    typeof window !== "undefined" &&
+    !prefersReducedMotion()
+  ) {
     lenisRef.current = new Lenis({
       lerp: 0.1,
       smoothWheel: true,
