@@ -19,6 +19,11 @@ uniform float iTime;
 uniform vec3 iResolution;
 uniform vec3 backgroundColor;
 uniform float u_scrollVelocity;
+uniform vec3 orbColor1A, orbColor1B;
+uniform vec3 orbColor2A, orbColor2B;
+uniform vec3 orbColor3A, orbColor3B;
+uniform vec3 orbColor4A, orbColor4B;
+uniform vec3 orbColor5A, orbColor5B;
 varying vec2 vUv;
 
 vec3 hash33(vec3 p3) {
@@ -106,13 +111,12 @@ void main() {
   float aspect = iResolution.x / iResolution.y;
   uv.x *= aspect;
 
-  // 5 orbs with Frutiger Aero frosted palette (low saturation)
   Orb orbs[5];
-  orbs[0] = Orb(vec2(0.85*aspect, 0.8), 0.35, 0.4, vec3(0.85, 0.90, 0.95), vec3(0.55, 0.65, 0.75));
-  orbs[1] = Orb(vec2(0.15*aspect, 0.45), 0.22, 0.55, vec3(0.80, 0.88, 0.95), vec3(0.50, 0.60, 0.70));
-  orbs[2] = Orb(vec2(0.72*aspect, 0.25), 0.15, 0.65, vec3(0.90, 0.92, 0.95), vec3(0.60, 0.70, 0.80));
-  orbs[3] = Orb(vec2(0.28*aspect, 0.15), 0.10, 0.75, vec3(0.88, 0.90, 0.94), vec3(0.55, 0.62, 0.72));
-  orbs[4] = Orb(vec2(0.10*aspect, 0.85), 0.20, 0.50, vec3(0.82, 0.88, 0.93), vec3(0.52, 0.62, 0.72));
+  orbs[0] = Orb(vec2(0.85*aspect, 0.8), 0.35, 0.4, orbColor1A, orbColor1B);
+  orbs[1] = Orb(vec2(0.15*aspect, 0.45), 0.22, 0.55, orbColor2A, orbColor2B);
+  orbs[2] = Orb(vec2(0.72*aspect, 0.25), 0.15, 0.65, orbColor3A, orbColor3B);
+  orbs[3] = Orb(vec2(0.28*aspect, 0.15), 0.10, 0.75, orbColor4A, orbColor4B);
+  orbs[4] = Orb(vec2(0.10*aspect, 0.85), 0.20, 0.50, orbColor5A, orbColor5B);
 
   vec4 result = vec4(0.0);
   for (int i = 0; i < 5; i++) {
@@ -180,6 +184,11 @@ export default function HeroOrbsWebGL() {
     const bgLoc = gl.getUniformLocation(prog, "backgroundColor");
     const velLoc = gl.getUniformLocation(prog, "u_scrollVelocity");
 
+    const orbColorLocs = Array.from({ length: 5 }, (_, i) => ({
+      a: gl.getUniformLocation(prog, `orbColor${i + 1}A`),
+      b: gl.getUniformLocation(prog, `orbColor${i + 1}B`),
+    }));
+
     const verts = new Float32Array([
       -1, -1, 0, 0, 3, -1, 2, 0, -1, 3, 0, 2,
     ]);
@@ -194,12 +203,52 @@ export default function HeroOrbsWebGL() {
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-    const isDark = window.matchMedia(
-      "(prefers-color-scheme: dark)",
-    ).matches;
-    const bg: [number, number, number] = isDark
-      ? [0.04, 0.03, 0.07]
-      : [0.17, 0.20, 0.40];
+    type RGB = [number, number, number];
+    type OrbPalette = { a: RGB; b: RGB }[];
+
+    const LIGHT_ORBS: OrbPalette = [
+      { a: [0.85, 0.90, 0.95], b: [0.55, 0.65, 0.75] },
+      { a: [0.80, 0.88, 0.95], b: [0.50, 0.60, 0.70] },
+      { a: [0.90, 0.92, 0.95], b: [0.60, 0.70, 0.80] },
+      { a: [0.88, 0.90, 0.94], b: [0.55, 0.62, 0.72] },
+      { a: [0.82, 0.88, 0.93], b: [0.52, 0.62, 0.72] },
+    ];
+
+    const DARK_ORBS: OrbPalette = [
+      { a: [0.55, 0.70, 0.90], b: [0.25, 0.35, 0.60] },
+      { a: [0.40, 0.75, 0.70], b: [0.20, 0.50, 0.45] },
+      { a: [0.65, 0.60, 0.85], b: [0.35, 0.30, 0.60] },
+      { a: [0.50, 0.72, 0.82], b: [0.28, 0.45, 0.55] },
+      { a: [0.60, 0.68, 0.80], b: [0.30, 0.40, 0.55] },
+    ];
+
+    function readSurfaceDeep(): RGB {
+      const raw = getComputedStyle(document.documentElement)
+        .getPropertyValue("--aero-surface-deep")
+        .trim();
+      const el = document.createElement("div");
+      el.style.color = raw;
+      document.body.appendChild(el);
+      const resolved = getComputedStyle(el).color;
+      document.body.removeChild(el);
+      const m = resolved.match(/[\d.]+/g);
+      if (m && m.length >= 3) {
+        return [parseFloat(m[0]) / 255, parseFloat(m[1]) / 255, parseFloat(m[2]) / 255];
+      }
+      return [0.04, 0.03, 0.07];
+    }
+
+    const darkMq = window.matchMedia("(prefers-color-scheme: dark)");
+    let bg: RGB = readSurfaceDeep();
+    let orbPalette = darkMq.matches ? DARK_ORBS : LIGHT_ORBS;
+
+    function applyTheme() {
+      bg = readSurfaceDeep();
+      orbPalette = darkMq.matches ? DARK_ORBS : LIGHT_ORBS;
+    }
+
+    const onThemeChange = () => applyTheme();
+    darkMq.addEventListener("change", onThemeChange);
 
     function resize() {
       const dpr = Math.min(window.devicePixelRatio, 2);
@@ -232,6 +281,11 @@ export default function HeroOrbsWebGL() {
       gl!.uniform3f(resLoc, canvas!.width, canvas!.height, canvas!.width / canvas!.height);
       gl!.uniform3f(bgLoc, bg[0], bg[1], bg[2]);
       gl!.uniform1f(velLoc, smoothVelocity);
+      for (let i = 0; i < 5; i++) {
+        const { a, b } = orbPalette[i];
+        gl!.uniform3f(orbColorLocs[i].a, a[0], a[1], a[2]);
+        gl!.uniform3f(orbColorLocs[i].b, b[0], b[1], b[2]);
+      }
       gl!.clearColor(0, 0, 0, 0);
       gl!.clear(gl!.COLOR_BUFFER_BIT);
       gl!.drawArrays(gl!.TRIANGLES, 0, 3);
@@ -274,6 +328,7 @@ export default function HeroOrbsWebGL() {
       stop();
       trigger.kill();
       window.removeEventListener("resize", onResize);
+      darkMq.removeEventListener("change", onThemeChange);
       gl.deleteProgram(prog);
       gl.deleteShader(vs);
       gl.deleteShader(fs);

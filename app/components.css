@@ -3,8 +3,8 @@
   /* ── Light Aero Glass (navigation, toolbars) ── */
   .glass-light {
     background: var(--color-glass-bg-light);
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(12px) saturate(1.4);
+    -webkit-backdrop-filter: blur(12px) saturate(1.4);
     border-bottom: 1px solid var(--color-glass-border);
     transform: translate3d(0, 0, 0);
     will-change: filter;
@@ -13,8 +13,8 @@
   /* ── Standard Glass Card (about, experience, project cards) ── */
   .glass-card {
     background: var(--color-glass-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px) saturate(1.5);
+    -webkit-backdrop-filter: blur(10px) saturate(1.5);
     border: 1px solid var(--color-glass-border);
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-glass), var(--shadow-glass-inset);
@@ -112,22 +112,21 @@
     position: relative;
     background: radial-gradient(
       circle at 30% 30%,
-      oklch(100% 0 0 / 0.95) 0%,
-      oklch(100% 0 0 / 0.55) 18%,
-      /* very low chroma — just a breath of hue, not saturated color */
-      oklch(80% 0.04 230 / 0.70) 50%,
-      oklch(55% 0.06 248 / 0.80) 75%,
-      oklch(30% 0.04 260 / 0.90) 100%
+      var(--aero-orb-core) 0%,
+      var(--aero-orb-inner) 18%,
+      var(--aero-orb-mid) 50%,
+      var(--aero-orb-outer) 75%,
+      var(--aero-orb-edge) 100%
     );
     box-shadow:
       inset 0 -6px 16px oklch(0% 0 0 / 0.30),
       inset 0 2px 4px oklch(100% 0 0 / 0.20),
-      0 12px 40px oklch(0% 0 0 / 0.25),
-      0 0 50px oklch(70% 0.08 220 / 0.15);
-    opacity: 0.65;
+      0 12px 40px var(--aero-orb-shadow-depth),
+      0 0 50px var(--aero-orb-shadow-glow);
+    opacity: var(--aero-orb-opacity);
   }
 
-  /* Specular highlight — crisp white ellipse */
+  /* Specular highlight — adapts intensity per mode */
   .aero-orb::after {
     content: "";
     position: absolute;
@@ -137,8 +136,8 @@
     height: 38%;
     background: radial-gradient(
       ellipse at 50% 60%,
-      oklch(100% 0 0 / 0.90) 0%,
-      oklch(100% 0 0 / 0.40) 40%,
+      oklch(100% 0 0 / var(--aero-orb-highlight-alpha)) 0%,
+      oklch(100% 0 0 / calc(var(--aero-orb-highlight-alpha) * 0.44)) 40%,
       transparent 70%
     );
     border-radius: 50%;
@@ -146,7 +145,7 @@
     pointer-events: none;
   }
 
-  /* Rim light on bottom edge */
+  /* Rim light on bottom edge — adapts per mode */
   .aero-orb::before {
     content: "";
     position: absolute;
@@ -156,7 +155,7 @@
     height: 20%;
     background: radial-gradient(
       ellipse,
-      oklch(100% 0 0 / 0.12),
+      oklch(100% 0 0 / var(--aero-orb-rim-alpha)),
       transparent
     );
     border-radius: 50%;

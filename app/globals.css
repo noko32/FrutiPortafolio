@@ -14,12 +14,15 @@
 
   --color-accent: var(--aero-accent);
   --color-accent-subtle: var(--aero-accent-subtle);
-  --color-accent-secondary: var(--aero-accent-secondary);
+  --color-accent-green: var(--aero-accent-green);
+  --color-accent-warm: var(--aero-accent-warm);
+  --color-accent-coral: var(--aero-accent-coral);
 
   --color-glass-bg: var(--aero-glass-bg);
   --color-glass-border: var(--aero-glass-border);
   --color-glass-bg-light: var(--aero-glass-bg-light);
 
+  --color-text-glow: var(--aero-text-glow);
   --color-focus-ring: var(--aero-focus-ring);
 
   --shadow-glass: var(--aero-shadow-glass);
@@ -43,43 +46,73 @@
 
   --aero-accent: oklch(50.0% 0.149 252);
   --aero-accent-subtle: oklch(64.1% 0.125 231);
-  --aero-accent-secondary: oklch(76.1% 0.112 165);
+  --aero-accent-green: oklch(55.0% 0.140 155);
+  --aero-accent-warm: oklch(68.0% 0.135 85);
+  --aero-accent-coral: oklch(62.0% 0.160 18);
 
   --aero-glass-bg: oklch(100% 0 0 / 0.55);
   --aero-glass-border: oklch(100% 0 0 / 0.35);
-  --aero-glass-bg-light: oklch(100% 0 0 / 0.25);
+  --aero-glass-bg-light: oklch(100% 0 0 / 0.35);
 
+  --aero-text-glow: oklch(56.0% 0.152 248 / 0.50);
   --aero-focus-ring: oklch(56.0% 0.152 248);
 
   --aero-shadow-glass: 0 8px 32px oklch(20.8% 0.040 266 / 0.12);
   --aero-shadow-glow: 0 0 24px oklch(56.0% 0.152 248 / 0.15);
   --aero-shadow-inset: inset 0 1px 2px oklch(100% 0 0 / 0.25);
+
+  /* ── Orb gradient stops (light: translucent bubble) ── */
+  --aero-orb-core: oklch(100% 0 0 / 0.95);
+  --aero-orb-inner: oklch(100% 0 0 / 0.55);
+  --aero-orb-mid: oklch(80% 0.04 230 / 0.70);
+  --aero-orb-outer: oklch(55% 0.06 248 / 0.80);
+  --aero-orb-edge: oklch(30% 0.04 260 / 0.90);
+  --aero-orb-opacity: 0.65;
+  --aero-orb-shadow-depth: oklch(0% 0 0 / 0.25);
+  --aero-orb-shadow-glow: oklch(70% 0.08 220 / 0.15);
+  --aero-orb-highlight-alpha: 0.90;
+  --aero-orb-rim-alpha: 0.12;
 }
 
 /* ── Dark mode (OS-driven) ── */
 @media (prefers-color-scheme: dark) {
   :root {
-    --aero-surface: oklch(17.2% 0.032 269);
-    --aero-surface-elevated: oklch(22.0% 0.045 266);
-    --aero-surface-deep: oklch(12.0% 0.025 269);
+    --aero-surface: oklch(16.0% 0.035 165);
+    --aero-surface-elevated: oklch(21.0% 0.040 230);
+    --aero-surface-deep: oklch(11.0% 0.045 280);
 
     --aero-text-primary: oklch(96.5% 0.007 248);
     --aero-text-secondary: oklch(86.9% 0.020 253);
-    --aero-text-inverse: oklch(20.8% 0.040 266);
+    --aero-text-inverse: oklch(96.5% 0.007 248);
 
     --aero-accent: oklch(73.9% 0.121 219);
     --aero-accent-subtle: oklch(82.5% 0.101 213);
-    --aero-accent-secondary: oklch(89.7% 0.091 160);
+    --aero-accent-green: oklch(72.0% 0.120 155);
+    --aero-accent-warm: oklch(78.0% 0.110 85);
+    --aero-accent-coral: oklch(75.0% 0.130 18);
 
-    --aero-glass-bg: oklch(100% 0 0 / 0.08);
-    --aero-glass-border: oklch(100% 0 0 / 0.15);
-    --aero-glass-bg-light: oklch(100% 0 0 / 0.04);
+    --aero-glass-bg: oklch(100% 0 0 / 0.12);
+    --aero-glass-border: oklch(100% 0 0 / 0.20);
+    --aero-glass-bg-light: oklch(16.0% 0.035 265 / 0.80);
 
+    --aero-text-glow: oklch(73.9% 0.121 219 / 0.60);
     --aero-focus-ring: oklch(73.9% 0.121 219);
 
     --aero-shadow-glass: 0 8px 32px oklch(0% 0 0 / 0.40);
     --aero-shadow-glow: 0 0 24px oklch(73.9% 0.121 219 / 0.20);
     --aero-shadow-inset: inset 0 1px 2px oklch(100% 0 0 / 0.08);
+
+    /* ── Orb gradient stops (dark: ethereal glow, not blotch) ── */
+    --aero-orb-core: oklch(85% 0.02 240 / 0.50);
+    --aero-orb-inner: oklch(70% 0.06 230 / 0.40);
+    --aero-orb-mid: oklch(55% 0.10 220 / 0.55);
+    --aero-orb-outer: oklch(40% 0.12 240 / 0.60);
+    --aero-orb-edge: oklch(20% 0.08 260 / 0.70);
+    --aero-orb-opacity: 0.50;
+    --aero-orb-shadow-depth: oklch(0% 0 0 / 0.50);
+    --aero-orb-shadow-glow: oklch(60% 0.12 220 / 0.30);
+    --aero-orb-highlight-alpha: 0.45;
+    --aero-orb-rim-alpha: 0.20;
   }
 }
 

@@ -6,12 +6,54 @@ import "./globals.css";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
+const SITE_URL = "https://fruti-portafolio.vercel.app";
+
 export const metadata: Metadata = {
-  title: "Pablo Armenta — Portfolio",
+  metadataBase: new URL(SITE_URL),
+  title: "Pablo Armenta — Full-Stack Engineer",
   description:
-    "Full-stack developer portfolio showcasing projects and experience.",
+    "Full-stack engineer based in Guadalajara with 4.5 years building products used by 500K+ people. React, TypeScript, Next.js, and performance-focused.",
+  keywords: [
+    "Pablo Armenta",
+    "software engineer",
+    "full-stack developer",
+    "React",
+    "TypeScript",
+    "Next.js",
+    "Guadalajara",
+    "frontend engineer",
+    "portfolio",
+  ],
+  authors: [{ name: "Pablo Armenta", url: SITE_URL }],
+  creator: "Pablo Armenta",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: SITE_URL,
+    siteName: "Pablo Armenta",
+    title: "Pablo Armenta — Full-Stack Engineer",
+    description:
+      "Full-stack engineer with 4.5 years building products used by 500K+ people. React, TypeScript, Next.js, and performance-focused.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Pablo Armenta — Full-Stack Engineer",
+    description:
+      "Full-stack engineer with 4.5 years building products used by 500K+ people. React, TypeScript, Next.js, and performance-focused.",
+  },
 };
 
 export default function RootLayout({
