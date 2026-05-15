@@ -1,7 +1,24 @@
 "use client";
 
 import { useLenis } from "@/components/providers/smooth-scroll-provider";
+import OrbBackground from "@/components/ui/orb-background";
 import AmbientGlow from "@/components/ui/ambient-glow";
+import type { OrbDef, RGB } from "@/components/ui/webgl-orbs";
+
+const CONTACT_ORBS: OrbDef[] = [
+  { center: [0.78, 0.30], radius: 0.20, speed: 0.45 },
+  { center: [0.22, 0.72], radius: 0.16, speed: 0.55 },
+];
+
+const CONTACT_LIGHT: { a: RGB; b: RGB }[] = [
+  { a: [0.95, 0.88, 0.90], b: [0.80, 0.60, 0.65] },
+  { a: [0.93, 0.86, 0.88], b: [0.78, 0.58, 0.62] },
+];
+
+const CONTACT_DARK_NEON: { a: RGB; b: RGB }[] = [
+  { a: [1.00, 0.92, 0.95], b: [0.95, 0.40, 0.55] },
+  { a: [0.98, 0.90, 0.93], b: [0.90, 0.35, 0.50] },
+];
 
 const SOCIAL_LINKS = [
   {
@@ -43,6 +60,14 @@ export default function Contact() {
       className="relative flex min-h-screen items-center justify-center bg-surface-deep px-6 py-24"
     >
       <AmbientGlow preset="contact" />
+      <OrbBackground
+        orbs={CONTACT_ORBS}
+        lightPalette={CONTACT_LIGHT}
+        darkPalette={CONTACT_DARK_NEON}
+        compositeAlpha={0.85}
+        bloomIntensity={0.3}
+        cssFallbackPreset="sparse"
+      />
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="text-4xl font-bold text-text-inverse sm:text-5xl md:text-6xl">
           Get in touch

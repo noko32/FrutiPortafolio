@@ -1,5 +1,21 @@
-import FloatingOrbs from "@/components/ui/floating-orbs";
+import OrbBackground from "@/components/ui/orb-background";
 import AmbientGlow from "@/components/ui/ambient-glow";
+import type { OrbDef, RGB } from "@/components/ui/webgl-orbs";
+
+const EXP_ORBS: OrbDef[] = [
+  { center: [0.88, 0.35], radius: 0.20, speed: 0.50 },
+  { center: [0.12, 0.75], radius: 0.15, speed: 0.60 },
+];
+
+const EXP_LIGHT: { a: RGB; b: RGB }[] = [
+  { a: [0.88, 0.85, 0.95], b: [0.62, 0.55, 0.78] },
+  { a: [0.90, 0.88, 0.96], b: [0.65, 0.58, 0.80] },
+];
+
+const EXP_DARK_NEON: { a: RGB; b: RGB }[] = [
+  { a: [0.95, 0.90, 1.00], b: [0.55, 0.35, 0.90] },
+  { a: [0.93, 0.88, 1.00], b: [0.60, 0.40, 0.95] },
+];
 
 interface TimelineEntry {
   company: string;
@@ -64,7 +80,14 @@ export default function Experience() {
       className="relative bg-surface-elevated px-6 py-24"
     >
       <AmbientGlow preset="experience" />
-      <FloatingOrbs preset="sparse" />
+      <OrbBackground
+        orbs={EXP_ORBS}
+        lightPalette={EXP_LIGHT}
+        darkPalette={EXP_DARK_NEON}
+        compositeAlpha={0.85}
+        bloomIntensity={0.3}
+        cssFallbackPreset="sparse"
+      />
       <div className="mx-auto max-w-3xl">
         <p className="text-xs font-semibold tracking-widest text-accent uppercase">
           Experience

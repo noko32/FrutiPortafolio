@@ -3,6 +3,23 @@
 import { useEffect, useRef } from "react";
 import { ScrollTrigger } from "@/lib/gsap-config";
 
+export type RGB = [number, number, number];
+
+export interface OrbDef {
+  center: [number, number];
+  radius: number;
+  speed: number;
+}
+
+export interface WebGLOrbsProps {
+  orbs: OrbDef[];
+  lightPalette: { a: RGB; b: RGB }[];
+  darkPalette: { a: RGB; b: RGB }[];
+  bloomIntensity?: number;
+  compositeAlpha?: number;
+  className?: string;
+}
+
 const VERT_SHADER = `
 precision highp float;
 attribute vec2 position;
@@ -13,17 +30,38 @@ void main() {
   gl_Position = vec4(position, 0.0, 1.0);
 }`;
 
-const FRAG_SHADER = `
+function generateFragShader(
+  orbs: OrbDef[],
+  bloomIntensity: number,
+  compositeAlpha: number,
+): string {
+  const n = orbs.length;
+  const ca = compositeAlpha.toFixed(2);
+
+  const colorUniforms = Array.from(
+    { length: n },
+    (_, i) => `uniform vec3 orbColor${i + 1}A, orbColor${i + 1}B;`,
+  ).join("\n");
+
+  const orbInits = orbs
+    .map(
+      (o, i) =>
+        `  orbs[${i}] = Orb(vec2(${o.center[0].toFixed(3)}*aspect, ${o.center[1].toFixed(3)}), ${o.radius.toFixed(3)}, ${o.speed.toFixed(3)}, orbColor${i + 1}A, orbColor${i + 1}B);`,
+    )
+    .join("\n");
+
+  const bloomPerOrb =
+    bloomIntensity > 0
+      ? `\n    result.rgb += orb.rgb * orb.a * ${bloomIntensity.toFixed(2)};`
+      : "";
+
+  return `
 precision highp float;
 uniform float iTime;
 uniform vec3 iResolution;
 uniform vec3 backgroundColor;
 uniform float u_scrollVelocity;
-uniform vec3 orbColor1A, orbColor1B;
-uniform vec3 orbColor2A, orbColor2B;
-uniform vec3 orbColor3A, orbColor3B;
-uniform vec3 orbColor4A, orbColor4B;
-uniform vec3 orbColor5A, orbColor5B;
+${colorUniforms}
 varying vec2 vUv;
 
 vec3 hash33(vec3 p3) {
@@ -111,24 +149,25 @@ void main() {
   float aspect = iResolution.x / iResolution.y;
   uv.x *= aspect;
 
-  Orb orbs[5];
-  orbs[0] = Orb(vec2(0.85*aspect, 0.8), 0.35, 0.4, orbColor1A, orbColor1B);
-  orbs[1] = Orb(vec2(0.15*aspect, 0.45), 0.22, 0.55, orbColor2A, orbColor2B);
-  orbs[2] = Orb(vec2(0.72*aspect, 0.25), 0.15, 0.65, orbColor3A, orbColor3B);
-  orbs[3] = Orb(vec2(0.28*aspect, 0.15), 0.10, 0.75, orbColor4A, orbColor4B);
-  orbs[4] = Orb(vec2(0.10*aspect, 0.85), 0.20, 0.50, orbColor5A, orbColor5B);
+  Orb orbs[${n}];
+${orbInits}
 
   vec4 result = vec4(0.0);
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < ${n}; i++) {
     vec4 orb = drawOrb(uv, orbs[i]);
-    result.rgb = result.rgb * (1.0 - orb.a * 0.6) + orb.rgb * orb.a * 0.6;
-    result.a = max(result.a, orb.a * 0.6);
+    result.rgb = result.rgb * (1.0 - orb.a * ${ca}) + orb.rgb * orb.a * ${ca};
+    result.a = max(result.a, orb.a * ${ca});${bloomPerOrb}
   }
 
   gl_FragColor = vec4(result.rgb * result.a, result.a);
 }`;
+}
 
-function createShader(gl: WebGLRenderingContext, type: number, src: string) {
+function compileShader(
+  gl: WebGLRenderingContext,
+  type: number,
+  src: string,
+) {
   const s = gl.createShader(type);
   if (!s) return null;
   gl.shaderSource(s, src);
@@ -141,15 +180,44 @@ function createShader(gl: WebGLRenderingContext, type: number, src: string) {
   return s;
 }
 
-export default function HeroOrbsWebGL() {
+function readSurfaceDeep(): RGB {
+  const raw = getComputedStyle(document.documentElement)
+    .getPropertyValue("--aero-surface-deep")
+    .trim();
+  const el = document.createElement("div");
+  el.style.color = raw;
+  document.body.appendChild(el);
+  const resolved = getComputedStyle(el).color;
+  document.body.removeChild(el);
+  const m = resolved.match(/[\d.]+/g);
+  if (m && m.length >= 3) {
+    return [
+      parseFloat(m[0]) / 255,
+      parseFloat(m[1]) / 255,
+      parseFloat(m[2]) / 255,
+    ];
+  }
+  return [0.04, 0.03, 0.07];
+}
+
+export default function WebGLOrbs({
+  orbs,
+  lightPalette,
+  darkPalette,
+  bloomIntensity = 0,
+  compositeAlpha = 0.6,
+  className,
+}: WebGLOrbsProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number>(0);
 
+  const orbCount = orbs.length;
+
   useEffect(() => {
     const canvas = canvasRef.current;
     const section = sectionRef.current;
-    if (!canvas || !section) return;
+    if (!canvas || !section || orbCount === 0) return;
 
     const prefersReduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
@@ -163,8 +231,9 @@ export default function HeroOrbsWebGL() {
     });
     if (!gl) return;
 
-    const vs = createShader(gl, gl.VERTEX_SHADER, VERT_SHADER);
-    const fs = createShader(gl, gl.FRAGMENT_SHADER, FRAG_SHADER);
+    const fragSrc = generateFragShader(orbs, bloomIntensity, compositeAlpha);
+    const vs = compileShader(gl, gl.VERTEX_SHADER, VERT_SHADER);
+    const fs = compileShader(gl, gl.FRAGMENT_SHADER, fragSrc);
     if (!vs || !fs) return;
 
     const prog = gl.createProgram()!;
@@ -184,7 +253,7 @@ export default function HeroOrbsWebGL() {
     const bgLoc = gl.getUniformLocation(prog, "backgroundColor");
     const velLoc = gl.getUniformLocation(prog, "u_scrollVelocity");
 
-    const orbColorLocs = Array.from({ length: 5 }, (_, i) => ({
+    const orbColorLocs = Array.from({ length: orbCount }, (_, i) => ({
       a: gl.getUniformLocation(prog, `orbColor${i + 1}A`),
       b: gl.getUniformLocation(prog, `orbColor${i + 1}B`),
     }));
@@ -203,48 +272,13 @@ export default function HeroOrbsWebGL() {
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-    type RGB = [number, number, number];
-    type OrbPalette = { a: RGB; b: RGB }[];
-
-    const LIGHT_ORBS: OrbPalette = [
-      { a: [0.85, 0.90, 0.95], b: [0.55, 0.65, 0.75] },
-      { a: [0.80, 0.88, 0.95], b: [0.50, 0.60, 0.70] },
-      { a: [0.90, 0.92, 0.95], b: [0.60, 0.70, 0.80] },
-      { a: [0.88, 0.90, 0.94], b: [0.55, 0.62, 0.72] },
-      { a: [0.82, 0.88, 0.93], b: [0.52, 0.62, 0.72] },
-    ];
-
-    const DARK_ORBS: OrbPalette = [
-      { a: [0.72, 0.84, 0.96], b: [0.38, 0.50, 0.75] },
-      { a: [0.55, 0.88, 0.82], b: [0.32, 0.65, 0.58] },
-      { a: [0.78, 0.72, 0.95], b: [0.48, 0.42, 0.75] },
-      { a: [0.62, 0.85, 0.92], b: [0.40, 0.60, 0.70] },
-      { a: [0.72, 0.80, 0.90], b: [0.42, 0.55, 0.70] },
-    ];
-
-    function readSurfaceDeep(): RGB {
-      const raw = getComputedStyle(document.documentElement)
-        .getPropertyValue("--aero-surface-deep")
-        .trim();
-      const el = document.createElement("div");
-      el.style.color = raw;
-      document.body.appendChild(el);
-      const resolved = getComputedStyle(el).color;
-      document.body.removeChild(el);
-      const m = resolved.match(/[\d.]+/g);
-      if (m && m.length >= 3) {
-        return [parseFloat(m[0]) / 255, parseFloat(m[1]) / 255, parseFloat(m[2]) / 255];
-      }
-      return [0.04, 0.03, 0.07];
-    }
-
     const darkMq = window.matchMedia("(prefers-color-scheme: dark)");
     let bg: RGB = readSurfaceDeep();
-    let orbPalette = darkMq.matches ? DARK_ORBS : LIGHT_ORBS;
+    let palette = darkMq.matches ? darkPalette : lightPalette;
 
     function applyTheme() {
       bg = readSurfaceDeep();
-      orbPalette = darkMq.matches ? DARK_ORBS : LIGHT_ORBS;
+      palette = darkMq.matches ? darkPalette : lightPalette;
     }
 
     const onThemeChange = () => applyTheme();
@@ -278,13 +312,18 @@ export default function HeroOrbsWebGL() {
 
       resize();
       gl!.uniform1f(timeLoc, shaderTime);
-      gl!.uniform3f(resLoc, canvas!.width, canvas!.height, canvas!.width / canvas!.height);
+      gl!.uniform3f(
+        resLoc,
+        canvas!.width,
+        canvas!.height,
+        canvas!.width / canvas!.height,
+      );
       gl!.uniform3f(bgLoc, bg[0], bg[1], bg[2]);
       gl!.uniform1f(velLoc, smoothVelocity);
-      for (let i = 0; i < 5; i++) {
-        const { a, b } = orbPalette[i];
-        gl!.uniform3f(orbColorLocs[i].a, a[0], a[1], a[2]);
-        gl!.uniform3f(orbColorLocs[i].b, b[0], b[1], b[2]);
+      for (let i = 0; i < orbCount; i++) {
+        const colors = palette[i] ?? palette[0];
+        gl!.uniform3f(orbColorLocs[i].a, colors.a[0], colors.a[1], colors.a[2]);
+        gl!.uniform3f(orbColorLocs[i].b, colors.b[0], colors.b[1], colors.b[2]);
       }
       gl!.clearColor(0, 0, 0, 0);
       gl!.clear(gl!.COLOR_BUFFER_BIT);
@@ -334,10 +373,15 @@ export default function HeroOrbsWebGL() {
       gl.deleteShader(fs);
       gl.deleteBuffer(buf);
     };
+    // Orb geometry is baked into the shader at compile time — no need to react to prop changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div ref={sectionRef} className="pointer-events-none absolute inset-0 z-0">
+    <div
+      ref={sectionRef}
+      className={`pointer-events-none absolute inset-0 z-0 ${className ?? ""}`}
+    >
       <canvas
         ref={canvasRef}
         className="h-full w-full"

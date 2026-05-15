@@ -1,5 +1,24 @@
-import FloatingOrbs from "@/components/ui/floating-orbs";
+import OrbBackground from "@/components/ui/orb-background";
 import AmbientGlow from "@/components/ui/ambient-glow";
+import type { OrbDef, RGB } from "@/components/ui/webgl-orbs";
+
+const ABOUT_ORBS: OrbDef[] = [
+  { center: [0.80, 0.30], radius: 0.25, speed: 0.45 },
+  { center: [0.15, 0.70], radius: 0.18, speed: 0.55 },
+  { center: [0.55, 0.85], radius: 0.12, speed: 0.65 },
+];
+
+const ABOUT_LIGHT: { a: RGB; b: RGB }[] = [
+  { a: [0.85, 0.92, 0.88], b: [0.55, 0.72, 0.62] },
+  { a: [0.88, 0.95, 0.90], b: [0.58, 0.75, 0.65] },
+  { a: [0.82, 0.90, 0.86], b: [0.50, 0.68, 0.58] },
+];
+
+const ABOUT_DARK_NEON: { a: RGB; b: RGB }[] = [
+  { a: [0.90, 1.00, 0.95], b: [0.25, 0.85, 0.65] },
+  { a: [0.88, 0.98, 0.93], b: [0.30, 0.80, 0.60] },
+  { a: [0.92, 1.00, 0.96], b: [0.20, 0.78, 0.58] },
+];
 
 const SKILL_CARDS = [
   {
@@ -41,7 +60,14 @@ export default function About() {
       className="relative flex min-h-screen items-center justify-center bg-surface px-6 py-24"
     >
       <AmbientGlow preset="about" />
-      <FloatingOrbs preset="scattered" />
+      <OrbBackground
+        orbs={ABOUT_ORBS}
+        lightPalette={ABOUT_LIGHT}
+        darkPalette={ABOUT_DARK_NEON}
+        compositeAlpha={0.85}
+        bloomIntensity={0.3}
+        cssFallbackPreset="scattered"
+      />
       <div className="mx-auto grid max-w-5xl gap-12 md:grid-cols-2">
         <div className="flex flex-col justify-center gap-6">
           <p className="text-xs font-semibold tracking-widest text-accent-green uppercase">

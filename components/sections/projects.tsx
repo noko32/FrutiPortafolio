@@ -1,5 +1,21 @@
-import FloatingOrbs from "@/components/ui/floating-orbs";
+import OrbBackground from "@/components/ui/orb-background";
 import AmbientGlow from "@/components/ui/ambient-glow";
+import type { OrbDef, RGB } from "@/components/ui/webgl-orbs";
+
+const PROJ_ORBS: OrbDef[] = [
+  { center: [0.82, 0.70], radius: 0.22, speed: 0.45 },
+  { center: [0.18, 0.25], radius: 0.16, speed: 0.55 },
+];
+
+const PROJ_LIGHT: { a: RGB; b: RGB }[] = [
+  { a: [0.95, 0.92, 0.85], b: [0.80, 0.70, 0.52] },
+  { a: [0.93, 0.90, 0.83], b: [0.78, 0.68, 0.50] },
+];
+
+const PROJ_DARK_NEON: { a: RGB; b: RGB }[] = [
+  { a: [0.95, 0.95, 0.90], b: [0.90, 0.65, 0.30] },
+  { a: [0.97, 0.93, 0.88], b: [0.85, 0.60, 0.25] },
+];
 
 interface Project {
   title: string;
@@ -50,7 +66,14 @@ export default function Projects() {
       className="relative bg-surface px-6 py-24"
     >
       <AmbientGlow preset="projects" />
-      <FloatingOrbs preset="sparse" />
+      <OrbBackground
+        orbs={PROJ_ORBS}
+        lightPalette={PROJ_LIGHT}
+        darkPalette={PROJ_DARK_NEON}
+        compositeAlpha={0.85}
+        bloomIntensity={0.3}
+        cssFallbackPreset="sparse"
+      />
       <div className="mx-auto max-w-5xl">
         <p className="text-xs font-semibold tracking-widest text-accent-green uppercase">
           Projects
