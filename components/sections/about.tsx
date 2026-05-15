@@ -1,4 +1,5 @@
 import FloatingOrbs from "@/components/ui/floating-orbs";
+import AmbientGlow from "@/components/ui/ambient-glow";
 
 const SKILL_CARDS = [
   {
@@ -39,6 +40,7 @@ export default function About() {
       id="about"
       className="relative flex min-h-screen items-center justify-center bg-surface px-6 py-24"
     >
+      <AmbientGlow preset="about" />
       <FloatingOrbs preset="scattered" />
       <div className="mx-auto grid max-w-5xl gap-12 md:grid-cols-2">
         <div className="flex flex-col justify-center gap-6">

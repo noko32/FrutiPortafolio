@@ -22,13 +22,13 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="glass-light fixed top-0 z-50 flex w-full items-center justify-center gap-8 px-6 py-4">
+    <nav className="glass-light fixed top-0 z-50 flex w-full items-center justify-center gap-3 px-4 py-3 sm:gap-8 sm:px-6 sm:py-4">
       {NAV_ITEMS.map((item) => (
         <a
           key={item.href}
           href={item.href}
           onClick={(e) => handleClick(e, item.href)}
-          className="text-sm font-medium text-text-secondary transition-colors hover:text-text-primary"
+          className="whitespace-nowrap text-xs font-medium text-text-secondary transition-colors hover:text-text-primary sm:text-sm"
         >
           {item.label}
         </a>

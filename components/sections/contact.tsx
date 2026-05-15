@@ -1,6 +1,7 @@
 "use client";
 
 import { useLenis } from "@/components/providers/smooth-scroll-provider";
+import AmbientGlow from "@/components/ui/ambient-glow";
 
 const SOCIAL_LINKS = [
   {
@@ -41,6 +42,7 @@ export default function Contact() {
       id="contact"
       className="relative flex min-h-screen items-center justify-center bg-surface-deep px-6 py-24"
     >
+      <AmbientGlow preset="contact" />
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="text-4xl font-bold text-text-inverse sm:text-5xl md:text-6xl">
           Get in touch
@@ -57,7 +59,7 @@ export default function Contact() {
           Send me an email
         </a>
 
-        <div className="mt-14 flex items-center justify-center gap-4">
+        <div className="mt-14 flex flex-wrap items-center justify-center gap-4">
           {SOCIAL_LINKS.map((link) => (
             <a
               key={link.label}

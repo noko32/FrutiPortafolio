@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Build output
+.next/
+out/
+build/
+coverage/
+
+# Vercel
+.vercel/
+
+# Generated / derived files
+*.map
+*.tsbuildinfo
+next-env.d.ts
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

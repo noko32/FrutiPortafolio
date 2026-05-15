@@ -77,7 +77,7 @@ export default function HeroOrbsCSS() {
   return (
     <div
       ref={containerRef}
-      className="pointer-events-none absolute inset-0"
+      className="pointer-events-none absolute inset-0 overflow-hidden"
       aria-hidden="true"
     >
       {ORBS.map((orb, i) => (

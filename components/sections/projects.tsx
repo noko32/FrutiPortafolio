@@ -1,4 +1,5 @@
 import FloatingOrbs from "@/components/ui/floating-orbs";
+import AmbientGlow from "@/components/ui/ambient-glow";
 
 interface Project {
   title: string;
@@ -48,6 +49,7 @@ export default function Projects() {
       id="projects"
       className="relative bg-surface px-6 py-24"
     >
+      <AmbientGlow preset="projects" />
       <FloatingOrbs preset="sparse" />
       <div className="mx-auto max-w-5xl">
         <p className="text-xs font-semibold tracking-widest text-accent-green uppercase">

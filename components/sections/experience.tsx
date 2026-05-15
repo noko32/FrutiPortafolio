@@ -1,4 +1,5 @@
 import FloatingOrbs from "@/components/ui/floating-orbs";
+import AmbientGlow from "@/components/ui/ambient-glow";
 
 interface TimelineEntry {
   company: string;
@@ -62,6 +63,7 @@ export default function Experience() {
       id="experience"
       className="relative bg-surface-elevated px-6 py-24"
     >
+      <AmbientGlow preset="experience" />
       <FloatingOrbs preset="sparse" />
       <div className="mx-auto max-w-3xl">
         <p className="text-xs font-semibold tracking-widest text-accent uppercase">

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useLenis } from "@/components/providers/smooth-scroll-provider";
 import HeroOrbsCSS from "@/components/hero/hero-orbs-css";
 import HeroOrbsWebGL from "@/components/hero/hero-orbs-webgl";
+import AmbientGlow from "@/components/ui/ambient-glow";
 
 export default function Hero() {
   const [useWebGL, setUseWebGL] = useState(false);
@@ -14,6 +15,7 @@ export default function Hero() {
       id="hero"
       className="relative flex min-h-screen items-center justify-center bg-surface-deep"
     >
+      <AmbientGlow preset="hero" />
       {useWebGL ? <HeroOrbsWebGL /> : <HeroOrbsCSS />}
 
       <button
