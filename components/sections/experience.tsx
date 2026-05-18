@@ -88,7 +88,7 @@ export default function Experience() {
         bloomIntensity={0.3}
         cssFallbackPreset="sparse"
       />
-      <div className="mx-auto max-w-3xl">
+      <div className="relative z-10 mx-auto max-w-3xl">
         <p className="text-xs font-semibold tracking-widest text-accent uppercase">
           Experience
         </p>

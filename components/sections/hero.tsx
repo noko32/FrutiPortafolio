@@ -29,6 +29,7 @@ const HERO_DARK_NEON: { a: RGB; b: RGB }[] = [
   { a: [0.88, 0.93, 1.00], b: [0.35, 0.58, 0.85] },
 ];
 
+
 export default function Hero() {
   const lenis = useLenis();
 

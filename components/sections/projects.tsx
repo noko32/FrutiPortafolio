@@ -74,7 +74,7 @@ export default function Projects() {
         bloomIntensity={0.3}
         cssFallbackPreset="sparse"
       />
-      <div className="mx-auto max-w-5xl">
+      <div className="relative z-10 mx-auto max-w-5xl">
         <p className="text-xs font-semibold tracking-widest text-accent-green uppercase">
           Projects
         </p>

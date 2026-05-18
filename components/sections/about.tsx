@@ -68,7 +68,7 @@ export default function About() {
         bloomIntensity={0.3}
         cssFallbackPreset="scattered"
       />
-      <div className="mx-auto grid max-w-5xl gap-12 md:grid-cols-2">
+      <div className="relative z-10 mx-auto grid max-w-5xl gap-12 md:grid-cols-2">
         <div className="flex flex-col justify-center gap-6">
           <p className="text-xs font-semibold tracking-widest text-accent-green uppercase">
             About Me
