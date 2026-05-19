@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# pabloarmenta.dev
 
-## Getting Started
+Personal portfolio site — a Frutiger Aero-inspired experience built to showcase front-end craft and full-stack capability.
 
-First, run the development server:
+**Live:** [pabloarmenta.dev](https://pabloarmenta.dev)
+
+## Technical Highlights
+
+- **Procedural WebGL shader orbs** with tiered rendering: WebGL on capable desktops, CSS keyframe fallback on mobile, static on `prefers-reduced-motion`
+- **Scroll-driven GSAP animations** with RAF lifecycle management — canvases pause when off-screen, resume on viewport entry
+- **Adaptive OKLCH color system** with per-section hue rotation, reactive to light/dark mode via `useSyncExternalStore`
+- **Layered visual composition:** section background → ambient glow (radial washes + blurred neon blobs) → shader orbs → glassmorphic cards → content
+- **Fully static build** (Lighthouse 98–100 across all categories) despite having a server-action contact form with rate limiting and honeypot protection
+- **Accessibility:** `prefers-reduced-motion` respected at three independent layers (WebGL init gate, GSAP skip, CSS `@media` gate)
+
+## Tech Stack
+
+| Category | Tools |
+|----------|-------|
+| Framework | Next.js 16 (App Router), React 19 |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4, OKLCH design tokens |
+| Animation | GSAP + ScrollTrigger, Lenis smooth scroll |
+| Graphics | Vanilla WebGL 1.0 (procedural fragment shaders, simplex noise) |
+| Email | Resend (server action) |
+| Hosting | Vercel (static, Fluid Compute for actions) |
+
+## Architecture
+
+The rendering tier is detected at mount via `useOrbTier`:
+1. Probe `canvas.getContext("webgl")` success
+2. Heuristic: `maxTouchPoints > 0 && innerWidth < 1024` → mobile
+3. `prefers-reduced-motion: reduce` → static (no animation)
+
+Each section gets its own `OrbBackground` wrapper that renders the appropriate tier. WebGL instances use ScrollTrigger to gate their RAF loops — at most 1–2 canvases animate simultaneously despite 5 being mounted.
+
+## Local Development
 
 ```bash
+npm install
+cp .env.example .env.local   # then fill in your keys
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Environment Variables
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Variable | Purpose |
+|----------|---------|
+| `RESEND_API_KEY` | Contact form email delivery (get one at [resend.com](https://resend.com)) |
+| `NEXT_PUBLIC_SITE_URL` | Canonical URL for metadata/sitemap (defaults to `https://pabloarmenta.dev`) |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## License
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
