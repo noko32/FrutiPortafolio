@@ -30,8 +30,8 @@ const PROJECTS: Project[] = [
   {
     title: "This Portfolio",
     description:
-      "My portfolio site. Built from scratch with WebGL orbs, scroll-driven GSAP animations, adaptive OKLCH color tokens, and glassmorphism that works in both light and dark mode.",
-    tags: ["Next.js 16", "TypeScript", "Tailwind v4", "GSAP", "WebGL", "OKLCH"],
+      "A Frutiger Aero-inspired portfolio with procedural WebGL shader orbs, tiered rendering (WebGL → CSS → static based on device capability), scroll-driven GSAP animations with RAF lifecycle management, and an adaptive OKLCH color system across light and dark modes. Lighthouse 98-100, fully static build.",
+    tags: ["Next.js 16", "TypeScript", "Tailwind v4", "WebGL", "GSAP", "OKLCH", "Vercel"],
     accent: "text-accent",
     link: "https://github.com/noko32/FrutiPortafolio",
   },
@@ -49,6 +49,7 @@ const PROJECTS: Project[] = [
       "Personalization aggregator for 500K+ users, dark mode rollout across the platform, and a Core Web Vitals push that took Lighthouse from the 60s to the 90s.",
     tags: ["React", "TypeScript", "Ruby on Rails", "A/B Testing", "Design Systems"],
     accent: "text-accent-warm",
+    link: "https://elements.envato.com/",
   },
   {
     title: "Placeit by Envato",
@@ -56,6 +57,7 @@ const PROJECTS: Project[] = [
       "Redesigned the main site and most subsites for 123K+ users. Built tracking infrastructure and helped build an A/B platform that ran 50+ experiments at a time.",
     tags: ["Vanilla JS", "Ruby on Rails", "ConfigCat", "Segment", "GDPR"],
     accent: "text-accent-coral",
+    link: "https://placeit.net/",
   },
 ];
 
