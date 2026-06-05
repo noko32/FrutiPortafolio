@@ -36,12 +36,12 @@ const PROJECTS: Project[] = [
     link: "https://github.com/noko32/FrutiPortafolio",
   },
   {
-    title: "Deglosser",
+    title: "Melomano",
     description:
-      "Search for any song and get lyrics, BPM, key, samples, and credits all in one page. Pulls from MusicBrainz, Genius, AcousticBrainz, and Cover Art Archive. Full-stack with Neon Postgres and Drizzle.",
-    tags: ["Next.js", "PostgreSQL", "Drizzle", "MusicBrainz API", "Genius API"],
+      "Song information aggregator that pulls lyrics, BPM/key, credits, sample relationships, and album art from 6 APIs into one page. Streaming architecture with per-component Suspense renders fast data in ~0.4s while slower APIs load progressively. 46 unit tests, GitHub Actions CI.",
+    tags: ["Next.js 16", "TypeScript", "Drizzle ORM", "Neon Postgres", "Tailwind v4", "Vitest", "Vercel"],
     accent: "text-accent-green",
-    status: "In Progress",
+    link: "https://melomano.dev",
   },
   {
     title: "Envato Elements",
