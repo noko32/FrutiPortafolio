@@ -30,7 +30,7 @@ const PROJECTS: Project[] = [
   {
     title: "This Portfolio",
     description:
-      "A Frutiger Aero-inspired portfolio with procedural WebGL shader orbs, tiered rendering (WebGL → CSS → static based on device capability), scroll-driven GSAP animations with RAF lifecycle management, and an adaptive OKLCH color system across light and dark modes. Lighthouse 98-100, fully static build.",
+      "A glassmorphism portfolio with procedural WebGL shader orbs, tiered rendering (WebGL → CSS → static based on device capability), scroll-driven GSAP animations with RAF lifecycle management, and an adaptive OKLCH color system across light and dark modes. Lighthouse 98-100, fully static build.",
     tags: ["Next.js 16", "TypeScript", "Tailwind v4", "WebGL", "GSAP", "OKLCH", "Vercel"],
     accent: "text-accent",
     link: "https://github.com/noko32/FrutiPortafolio",
@@ -38,7 +38,7 @@ const PROJECTS: Project[] = [
   {
     title: "Melomano",
     description:
-      "Song information aggregator that pulls lyrics, BPM/key, credits, sample relationships, and album art from 6 APIs into one page. Streaming architecture with per-component Suspense renders fast data in ~0.4s while slower APIs load progressively. 46 unit tests, GitHub Actions CI.",
+      "Song information aggregator that pulls lyrics, BPM/key, credits, sample relationships, and album art from 5 APIs into one page. Streaming architecture with per-component Suspense renders fast data in ~0.4s while slower APIs load progressively. 46 unit tests, GitHub Actions CI.",
     tags: ["Next.js 16", "TypeScript", "Drizzle ORM", "Neon Postgres", "Tailwind v4", "Vitest", "Vercel"],
     accent: "text-accent-green",
     link: "https://melomano.dev",
