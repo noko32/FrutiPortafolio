@@ -79,10 +79,10 @@ export default function About() {
           <p className="text-base leading-relaxed text-text-secondary">
             I spent 4.5 years at Envato working across Placeit and Envato
             Elements, two products with 600K+ combined users. I started on the
-            frontend and grew into full-stack. Along the way I worked on
-            personalization systems, sitewide rebrands, A/B experimentation,
-            and a Core Web Vitals push that took Lighthouse scores from the
-            60s to the 90s.
+            frontend and grew into full-stack. At both Placeit and Elements I built
+            and owned the For You pages, surfacing the right data on the main app
+            for subscribed users. I also worked on sitewide rebrands, A/B
+            experimentation, and a Lighthouse push from the 60s to the 90s.
           </p>
           <p className="text-base leading-relaxed text-text-secondary">
             My stack is React, TypeScript, Ruby on Rails, and Node.js. I care
