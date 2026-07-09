@@ -23,7 +23,7 @@ const ABOUT_DARK_NEON: { a: RGB; b: RGB }[] = [
 const SKILL_CARDS = [
   {
     label: "Frontend",
-    skills: "React · TypeScript · Next.js · Neon · Tailwind · GSAP",
+    skills: "React · TypeScript · Flow · Next.js · Neon SPA · Tailwind · GSAP",
     accentClass: "text-accent",
     dotClass: "bg-accent",
   },

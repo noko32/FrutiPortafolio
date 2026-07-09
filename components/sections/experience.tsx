@@ -34,10 +34,10 @@ const EXPERIENCE: TimelineEntry[] = [
     accent: "text-accent",
     dot: "bg-accent",
     bullets: [
-      "Built a personalization aggregator that served 500K+ users, pulling recommendation data from multiple services into one place",
-      "Took full ownership of key parts of the platform-wide dark mode rollout: token system, component migration, and cross-page QA",
-      "Worked on a sitewide rebrand, redesigning asset-type landing pages with a new component-driven design system",
-      "Pushed Lighthouse scores from the 60s to the 90s on desktop (20s to 50s on mobile) in a large legacy codebase where most dependencies couldn't be easily upgraded",
+      "Owned end-to-end delivery of the flagship 'For You' personalized pages, composing shared design system components and architecting a custom BFF (Backend-for-Frontend) aggregation layer to serve recommendation data to 500K+ active subscribers, boosting engagement CTR by 30%",
+      "Led web performance optimization and Core Web Vitals (CWV) initiatives, lifting mobile Lighthouse scores from 20s to 50s and desktop scores from 60s to 90+ on legacy, dependency-locked pages through code splitting, image payload reduction, and INP/LCP tuning",
+      "Shipped high-urgency, visual-fidelity landing pages under critical ≤2-day marketing and legal deadlines, ensuring pixel-perfect responsive layouts and strict design-system/A11y accessibility compliance",
+      "Operated across the multi-year codebase migration from Flow/JS to React and TypeScript, authoring typed interfaces and refactoring legacy Ruby on Rails backend controllers and views",
     ],
   },
   {
@@ -47,10 +47,10 @@ const EXPERIENCE: TimelineEntry[] = [
     accent: "text-accent-green",
     dot: "bg-accent-green",
     bullets: [
-      "Started on frontend and grew into full-stack, working with Vanilla JS (ES5) and Ruby on Rails",
-      "Implemented ambient color detection for video mockups so backgrounds would automatically match uploaded media",
-      "Single-handedly redesigned the main site and most subsites for 123K+ monthly active users",
-      "Built GDPR-compliant tracking infrastructure and helped build a server-side A/B experimentation platform that ran 50+ concurrent experiments",
+      "Managed page-level visual redesigns and feature delivery for 5 core high-traffic subscriber pages, building modular component trees inside Envato's custom proprietary Neon SPA framework and integrating with Ruby on Rails APIs",
+      "Achieved a 15% reduction in subscriber churn by designing and running 50+ concurrent server-side and client-side experiments on a custom in-house A/B testing platform (A/B infra)",
+      "Built a GDPR-compliant GDPR/privacy user-tracking infrastructure, integrating telemetry pipelines (Segment, Cookiebot) to enable high-fidelity user segmentation (churn-risk, billing tier) across all high-traffic sub-pages",
+      "Grew from frontend specialist to full-stack contributor, progressively owning Ruby on Rails backend features as product demands required end-to-end delivery",
     ],
   },
   {
