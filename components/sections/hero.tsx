@@ -50,13 +50,13 @@ export default function Hero() {
 
       <div className="relative z-10 flex flex-col items-center gap-6 px-6 text-center">
         <p className="text-sm font-medium tracking-[0.25em] text-text-inverse/50 uppercase">
-          Software Engineer · Guadalajara
+          Full-Stack & Product Systems Engineer · Guadalajara
         </p>
         <h1 className="text-5xl font-bold leading-tight text-text-inverse drop-shadow-lg sm:text-6xl md:text-7xl">
           Pablo<br />Armenta
         </h1>
-        <p className="max-w-md text-lg text-text-inverse/65 drop-shadow-md">
-          Full-stack engineer with 4.5 years shipping products used by 500K+ people. I focus on performance, design systems, and making things feel right.
+        <p className="max-w-xl text-lg text-text-inverse/65 drop-shadow-md">
+          Full-Stack Engineer with 4.5 years at Envato specializing in React, TypeScript, and Ruby on Rails. I focus on Core Web Vitals, A/B experimentation, and custom BFF architecture for 500K+ subscribers.
         </p>
         <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:gap-4">
           <button

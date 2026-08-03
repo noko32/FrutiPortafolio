@@ -46,16 +46,16 @@ const PROJECTS: Project[] = [
   {
     title: "Envato Elements",
     description:
-      "Personalization aggregator for 500K+ users, dark mode rollout across the platform, and a Core Web Vitals push that took Lighthouse from the 60s to the 90s.",
-    tags: ["React", "TypeScript", "Ruby on Rails", "A/B Testing", "Design Systems"],
+      "Owned the For You personalized pages for 500K+ subscribers with a custom BFF aggregation layer (CTR +30%). Led Core Web Vitals optimization lifting Lighthouse from the 60s to 90+ on desktop. Navigated the Flow/JS to React/TypeScript codebase migration.",
+    tags: ["React", "TypeScript", "FlowJS", "Ruby on Rails", "Elasticsearch", "BFF", "Core Web Vitals", "Design Systems"],
     accent: "text-accent-warm",
     link: "https://elements.envato.com/",
   },
   {
     title: "Placeit by Envato",
     description:
-      "Redesigned the main site and most subsites for 123K+ users. Built tracking infrastructure and helped build an A/B platform that ran 50+ experiments at a time.",
-    tags: ["Vanilla JS", "Ruby on Rails", "ConfigCat", "Segment", "GDPR"],
+      "Redesigned 5 core subscriber pages using Envato's Neon SPA framework and Rails APIs for 123K+ MAU. Built a custom Redis cache layer for the recommendation feed, ran 50+ concurrent A/B experiments cutting churn by 15%, and shipped GDPR-compliant telemetry pipelines.",
+    tags: ["Neon SPA Framework", "Ruby on Rails", "Redis", "A/B Testing", "Segment", "GDPR", "Canvas API"],
     accent: "text-accent-coral",
     link: "https://placeit.net/",
   },

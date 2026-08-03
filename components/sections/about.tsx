@@ -23,25 +23,25 @@ const ABOUT_DARK_NEON: { a: RGB; b: RGB }[] = [
 const SKILL_CARDS = [
   {
     label: "Frontend",
-    skills: "React · TypeScript · Flow · Next.js · Neon SPA · Tailwind · GSAP",
+    skills: "React · TypeScript · FlowJS · Next.js 16 (RSC / Suspense) · Neon SPA Framework · Tailwind v4 · GSAP · WebGL · HTML5 / CSS3 · A11y",
     accentClass: "text-accent",
     dotClass: "bg-accent",
   },
   {
-    label: "Backend",
-    skills: "Ruby on Rails · Node.js · Express · REST APIs",
+    label: "Backend & Data",
+    skills: "Ruby on Rails · Node.js · RESTful APIs · PostgreSQL (Drizzle) · Redis · Elasticsearch · AWS (S3 / CloudFront)",
     accentClass: "text-accent-green",
     dotClass: "bg-accent-green",
   },
   {
     label: "Performance",
-    skills: "Core Web Vitals · Lighthouse · Design Systems · A/B Testing",
+    skills: "Core Web Vitals (INP / LCP / CLS) · Lighthouse · Design Systems · A/B Testing Infra · BFF Architecture",
     accentClass: "text-accent-warm",
     dotClass: "bg-accent-warm",
   },
   {
-    label: "Platform",
-    skills: "Datadog · Segment · ConfigCat · Rollbar",
+    label: "Platform & Ops",
+    skills: "CI/CD (GitHub Actions) · Vitest · Git · Datadog · Segment · ConfigCat · Rollbar · GDPR Compliance",
     accentClass: "text-accent-coral",
     dotClass: "bg-accent-coral",
   },
@@ -77,17 +77,17 @@ export default function About() {
             I like building things that feel good to use.
           </h2>
           <p className="text-base leading-relaxed text-text-secondary">
-            I spent 4.5 years at Envato working across Placeit and Envato
-            Elements, two products with 600K+ combined users. I started on the
-            frontend and grew into full-stack. At both Placeit and Elements I built
-            and owned the For You pages, surfacing the right data on the main app
-            for subscribed users. I also worked on sitewide rebrands, A/B
-            experimentation, and a Lighthouse push from the 60s to the 90s.
+            I spent 4.5 years at Envato delivering page-level features across
+            Placeit and Envato Elements, two products with 600K+ combined
+            subscribers. I owned the For You personalized pages at both
+            products, architected a BFF aggregation layer for 500K+ users,
+            and navigated a multi-year Flow/JS to React and TypeScript
+            codebase migration.
           </p>
           <p className="text-base leading-relaxed text-text-secondary">
-            My stack is React, TypeScript, Ruby on Rails, and Node.js. I care
-            a lot about performance, design systems, and the small details
-            that make an interface feel polished.
+            My stack is React, TypeScript, Next.js, Ruby on Rails, and
+            Node.js. I focus on Core Web Vitals, design systems, and the
+            small details that make an interface feel right.
           </p>
 
           <div className="mt-2 flex flex-wrap gap-x-6 gap-y-2">
