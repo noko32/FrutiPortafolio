@@ -1,8 +1,8 @@
 import Navigation from "@/components/navigation";
 import Hero from "@/components/sections/hero";
-import About from "@/components/sections/about";
 import Experience from "@/components/sections/experience";
 import Projects from "@/components/sections/projects";
+import About from "@/components/sections/about";
 import Contact from "@/components/sections/contact";
 
 export default function Home() {
@@ -11,9 +11,9 @@ export default function Home() {
       <Navigation />
       <main className="isolate">
         <Hero />
-        <About />
         <Experience />
         <Projects />
+        <About />
         <Contact />
       </main>
     </>

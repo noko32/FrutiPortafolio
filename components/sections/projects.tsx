@@ -1,82 +1,67 @@
-import OrbBackground from "@/components/ui/orb-background";
 import AmbientGlow from "@/components/ui/ambient-glow";
-import type { OrbDef, RGB } from "@/components/ui/webgl-orbs";
+import CardOrbSpill from "@/components/cues/card-orb-spill";
+import SpiderNetCrawl from "@/components/cues/spider-net-crawl";
+import { MelomanoMark } from "@/components/cues/melomano-mark";
 
-const PROJ_ORBS: OrbDef[] = [
-  { center: [0.82, 0.70], radius: 0.22, speed: 0.45 },
-  { center: [0.18, 0.25], radius: 0.16, speed: 0.55 },
-];
-
-const PROJ_LIGHT: { a: RGB; b: RGB }[] = [
-  { a: [0.95, 0.92, 0.85], b: [0.80, 0.70, 0.52] },
-  { a: [0.93, 0.90, 0.83], b: [0.78, 0.68, 0.50] },
-];
-
-const PROJ_DARK_NEON: { a: RGB; b: RGB }[] = [
-  { a: [0.95, 0.95, 0.90], b: [0.90, 0.65, 0.30] },
-  { a: [0.97, 0.93, 0.88], b: [0.85, 0.60, 0.25] },
-];
+type ProjectCue = "orbs-left" | "net-right";
 
 interface Project {
+  id: "portfolio" | "melomano";
   title: string;
   description: string;
   tags: string[];
   accent: string;
-  link?: string;
-  status?: string;
+  link: string;
+  /** Plain text action — no arrow glyphs (Family A). */
+  cta: string;
+  cue: ProjectCue;
 }
 
 const PROJECTS: Project[] = [
   {
+    id: "portfolio",
     title: "This Portfolio",
     description:
       "A glassmorphism portfolio with procedural WebGL shader orbs, tiered rendering (WebGL → CSS → static based on device capability), scroll-driven GSAP animations with RAF lifecycle management, and an adaptive OKLCH color system across light and dark modes. Lighthouse 98-100, fully static build.",
-    tags: ["Next.js 16", "TypeScript", "Tailwind v4", "WebGL", "GSAP", "OKLCH", "Vercel"],
+    tags: [
+      "Next.js 16",
+      "TypeScript",
+      "Tailwind v4",
+      "WebGL",
+      "GSAP",
+      "OKLCH",
+      "Vercel",
+    ],
     accent: "text-accent",
     link: "https://github.com/noko32/FrutiPortafolio",
+    cta: "View source",
+    cue: "orbs-left",
   },
   {
+    id: "melomano",
     title: "Melomano",
     description:
-      "Song information aggregator that pulls lyrics, BPM/key, credits, sample relationships, and album art from 5 APIs into one page. Streaming architecture with per-component Suspense renders fast data in ~0.4s while slower APIs load progressively. 46 unit tests, GitHub Actions CI.",
-    tags: ["Next.js 16", "TypeScript", "Drizzle ORM", "Neon Postgres", "Tailwind v4", "Vitest", "Vercel"],
+      "Song aggregator with a Django REST microservice for Camelot-compatible harmonic recommendations and ±5% BPM ranges. Next.js frontend over a PostgreSQL cache, with Django TestCase and Vitest covering the API surface.",
+    tags: [
+      "Next.js 16",
+      "TypeScript",
+      "Python (Django/DRF)",
+      "Drizzle ORM",
+      "Neon Postgres",
+      "Vitest",
+    ],
     accent: "text-accent-green",
     link: "https://melomano.dev",
-  },
-  {
-    title: "Envato Elements",
-    description:
-      "Owned the For You personalized pages for 500K+ subscribers with a custom BFF aggregation layer (CTR +30%). Led Core Web Vitals optimization lifting Lighthouse from the 60s to 90+ on desktop. Navigated the Flow/JS to React/TypeScript codebase migration.",
-    tags: ["React", "TypeScript", "FlowJS", "Ruby on Rails", "Elasticsearch", "BFF", "Core Web Vitals", "Design Systems"],
-    accent: "text-accent-warm",
-    link: "https://elements.envato.com/",
-  },
-  {
-    title: "Placeit by Envato",
-    description:
-      "Redesigned 5 core subscriber pages using Envato's Neon SPA framework and Rails APIs for 123K+ MAU. Built a custom Redis cache layer for the recommendation feed, ran 50+ concurrent A/B experiments cutting churn by 15%, and shipped GDPR-compliant telemetry pipelines.",
-    tags: ["Neon SPA Framework", "Ruby on Rails", "Redis", "A/B Testing", "Segment", "GDPR", "Canvas API"],
-    accent: "text-accent-coral",
-    link: "https://placeit.net/",
+    cta: "melomano.dev",
+    cue: "net-right",
   },
 ];
 
 export default function Projects() {
   return (
-    <section
-      id="projects"
-      className="relative bg-surface px-6 py-24"
-    >
+    <section id="projects" className="relative overflow-visible bg-surface px-6 py-24">
       <AmbientGlow preset="projects" />
-      <OrbBackground
-        orbs={PROJ_ORBS}
-        lightPalette={PROJ_LIGHT}
-        darkPalette={PROJ_DARK_NEON}
-        compositeAlpha={0.85}
-        bloomIntensity={0.3}
-        cssFallbackPreset="sparse"
-      />
-      <div className="relative z-10 mx-auto max-w-5xl">
+      <div className="relative z-10 mx-auto max-w-5xl overflow-visible px-4 sm:px-8 md:px-12">
         <p className="text-xs font-semibold tracking-widest text-accent-green uppercase">
           Projects
         </p>
@@ -84,49 +69,52 @@ export default function Projects() {
           Things I&apos;ve built
         </h2>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-2">
+        <div className="mt-12 grid items-stretch gap-10 overflow-visible md:grid-cols-2 md:gap-12">
           {PROJECTS.map((project) => (
-            <div
-              key={project.title}
-              className="glass-card group px-6 py-6 transition-transform duration-300 hover:-translate-y-1"
-            >
-              <div className="flex items-start justify-between gap-3">
-                <h3 className={`text-lg font-bold ${project.accent}`}>
-                  {project.link ? (
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="transition-opacity hover:opacity-80"
-                    >
-                      {project.title}
-                      <span className="ml-1.5 text-xs opacity-50">&#8599;</span>
-                    </a>
-                  ) : (
-                    project.title
-                  )}
-                </h3>
-                {project.status && (
-                  <span className="shrink-0 rounded-full border border-accent-green/30 bg-accent-green/10 px-2.5 py-0.5 text-[10px] font-semibold text-accent-green">
-                    {project.status}
-                  </span>
+            <div key={project.id} className="relative flex h-full overflow-visible">
+              {project.cue === "orbs-left" ? <CardOrbSpill /> : null}
+              {project.cue === "net-right" ? <SpiderNetCrawl /> : null}
+              <article className="glass-card group relative z-[2] flex h-full w-full flex-col !bg-surface-elevated px-6 py-6 transition-transform duration-300 hover:-translate-y-1">
+                {project.id === "melomano" ? (
+                  <h3 className="inline-flex items-center gap-2.5">
+                    <MelomanoMark
+                      className="h-7 w-7 shrink-0"
+                      gradientId="fruti-melomano-card-mark"
+                    />
+                    <span className="melomano-caps text-lg sm:text-xl">
+                      MELOMANO
+                    </span>
+                  </h3>
+                ) : (
+                  <h3 className={`text-lg font-bold ${project.accent}`}>
+                    {project.title}
+                  </h3>
                 )}
-              </div>
 
-              <p className="mt-3 text-sm leading-relaxed text-text-secondary">
-                {project.description}
-              </p>
+                <p className="mt-3 flex-1 text-sm leading-relaxed text-text-secondary">
+                  {project.description}
+                </p>
 
-              <div className="mt-4 flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full border border-glass-border bg-glass-bg px-2.5 py-0.5 text-[11px] font-medium text-text-secondary"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full border border-glass-border bg-glass-bg px-2.5 py-0.5 text-[11px] font-medium text-text-secondary"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`mt-5 self-start text-sm font-semibold underline decoration-1 underline-offset-4 transition-opacity hover:opacity-70 ${project.accent}`}
+                >
+                  {project.cta}
+                </a>
+              </article>
             </div>
           ))}
         </div>

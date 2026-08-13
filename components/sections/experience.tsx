@@ -3,18 +3,18 @@ import AmbientGlow from "@/components/ui/ambient-glow";
 import type { OrbDef, RGB } from "@/components/ui/webgl-orbs";
 
 const EXP_ORBS: OrbDef[] = [
-  { center: [0.88, 0.35], radius: 0.20, speed: 0.50 },
-  { center: [0.12, 0.75], radius: 0.15, speed: 0.60 },
+  { center: [0.88, 0.35], radius: 0.2, speed: 0.5 },
+  { center: [0.12, 0.75], radius: 0.15, speed: 0.6 },
 ];
 
 const EXP_LIGHT: { a: RGB; b: RGB }[] = [
   { a: [0.88, 0.85, 0.95], b: [0.62, 0.55, 0.78] },
-  { a: [0.90, 0.88, 0.96], b: [0.65, 0.58, 0.80] },
+  { a: [0.9, 0.88, 0.96], b: [0.65, 0.58, 0.8] },
 ];
 
 const EXP_DARK_NEON: { a: RGB; b: RGB }[] = [
-  { a: [0.95, 0.90, 1.00], b: [0.55, 0.35, 0.90] },
-  { a: [0.93, 0.88, 1.00], b: [0.60, 0.40, 0.95] },
+  { a: [0.95, 0.9, 1.0], b: [0.55, 0.35, 0.9] },
+  { a: [0.93, 0.88, 1.0], b: [0.6, 0.4, 0.95] },
 ];
 
 interface TimelineEntry {
@@ -22,6 +22,7 @@ interface TimelineEntry {
   role: string;
   period: string;
   bullets: string[];
+  tags: string[];
   accent: string;
   dot: string;
 }
@@ -33,6 +34,17 @@ const EXPERIENCE: TimelineEntry[] = [
     period: "Apr 2024 to Mar 2026",
     accent: "text-accent",
     dot: "bg-accent",
+    tags: [
+      "React",
+      "TypeScript",
+      "FlowJS",
+      "Ruby on Rails",
+      "PostgreSQL",
+      "AWS S3",
+      "Elasticsearch",
+      "Git",
+      "CI/CD (GitHub Actions)",
+    ],
     bullets: [
       "Owned end-to-end delivery of the flagship For You personalized pages, composing shared design-system components and architecting a custom BFF aggregation layer that boosted click-through rate by 30% for 500K+ subscribers",
       "Led Core Web Vitals optimization (LCP, INP) on legacy, dependency-locked pages, lifting desktop Lighthouse from the 60s to 90+ and mobile from the 20s to the 50s",
@@ -48,6 +60,15 @@ const EXPERIENCE: TimelineEntry[] = [
     period: "Nov 2021 to Apr 2024",
     accent: "text-accent-green",
     dot: "bg-accent-green",
+    tags: [
+      "Ruby on Rails",
+      "Redis",
+      "AWS S3",
+      "Neon SPA Framework",
+      "HTML5 Canvas",
+      "JavaScript",
+      "Git",
+    ],
     bullets: [
       "Redesigned the main site and 5 core subscriber pages using Envato's proprietary Neon SPA framework and Ruby on Rails APIs, serving 123K+ monthly active users",
       "Developed and optimized a custom Redis cache layer for the main recommendation feed, bypassing heavy database lookups to keep page loads fast",
@@ -63,17 +84,26 @@ const EXPERIENCE: TimelineEntry[] = [
     period: "Feb to Aug 2019",
     accent: "text-accent-warm",
     dot: "bg-accent-warm",
+    tags: ["ASP.NET Core", "C#", "SQL Server", "Git"],
     bullets: [
-      "Built an internal marketing automation tool with ASP.NET Core",
-      "First professional exposure to full-stack web development and agile workflows",
+      "Built an internal ASP.NET Core web tool to automate promotional image generation.",
     ],
   },
 ];
 
 const EDUCATION = [
-  { label: "B.S. Software Engineering", detail: "Universidad Autónoma de Guadalajara, 2017–2021" },
-  { label: "Cambridge C2 Proficiency", detail: "English, highest level certification" },
-  { label: "Gray Hat Offensive Security", detail: "Ethical hacking and penetration testing" },
+  {
+    label: "B.S. Software Engineering",
+    detail: "Universidad Autónoma de Guadalajara, 2017–2021",
+  },
+  {
+    label: "Cambridge C2 Proficiency",
+    detail: "English, highest level certification",
+  },
+  {
+    label: "Gray Hat Offensive Security",
+    detail: "Ethical hacking and penetration testing",
+  },
   { label: "IBM Hackapalooza", detail: "4th place, competitive hackathon" },
 ];
 
@@ -101,13 +131,11 @@ export default function Experience() {
         </h2>
 
         <div className="relative mt-12">
-          {/* Vertical timeline line */}
           <div className="absolute top-0 left-[7px] h-full w-px bg-glass-border" />
 
           <div className="flex flex-col gap-10">
             {EXPERIENCE.map((entry) => (
               <div key={entry.company} className="relative pl-10">
-                {/* Timeline dot */}
                 <div
                   className={`absolute top-1.5 left-0 h-[15px] w-[15px] rounded-full border-2 border-surface-elevated ${entry.dot}`}
                 />
@@ -135,13 +163,22 @@ export default function Experience() {
                       </li>
                     ))}
                   </ul>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {entry.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-glass-border bg-glass-bg px-2.5 py-0.5 text-[11px] font-medium text-text-secondary"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Education */}
         <div className="mt-16">
           <p className="text-xs font-semibold tracking-widest text-accent-coral uppercase">
             Education & Certifications
@@ -149,8 +186,12 @@ export default function Experience() {
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {EDUCATION.map((item) => (
               <div key={item.label} className="glass-card px-5 py-4">
-                <p className="text-sm font-semibold text-text-primary">{item.label}</p>
-                <p className="mt-0.5 text-xs text-text-secondary">{item.detail}</p>
+                <p className="text-sm font-semibold text-text-primary">
+                  {item.label}
+                </p>
+                <p className="mt-0.5 text-xs text-text-secondary">
+                  {item.detail}
+                </p>
               </div>
             ))}
           </div>

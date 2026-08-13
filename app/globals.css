@@ -3,6 +3,7 @@
 
 @theme inline {
   --font-sans: var(--font-inter);
+  --font-display: var(--font-syne);
 
   --color-surface: var(--aero-surface);
   --color-surface-elevated: var(--aero-surface-elevated);

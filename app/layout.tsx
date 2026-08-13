@@ -1,11 +1,25 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Syne, Archivo_Black } from "next/font/google";
 import SmoothScrollProvider from "@/components/providers/smooth-scroll-provider";
 import "./globals.css";
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const syne = Syne({
+  variable: "--font-syne",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+/** Melomano product card only — not sitewide Fruti brand. */
+const archivoBlack = Archivo_Black({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-archivo-black",
   display: "swap",
 });
 
@@ -62,7 +76,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} antialiased`}>
+    <html
+      lang="en"
+      className={`${inter.variable} ${syne.variable} ${archivoBlack.variable} antialiased`}
+    >
       <body className="font-sans">
         <SmoothScrollProvider>{children}</SmoothScrollProvider>
       </body>

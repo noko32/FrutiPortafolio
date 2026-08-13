@@ -201,6 +201,15 @@
   .aero-orb--md { width: 200px; height: 200px; }
   .aero-orb--sm { width: 130px; height: 130px; }
   .aero-orb--xs { width: 80px;  height: 80px;  }
+
+  /* Melomano product wordmark — card-scoped only (not Fruti brand). */
+  .melomano-caps {
+    margin: 0;
+    font-family: var(--font-archivo-black), ui-sans-serif, system-ui, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--color-text-primary);
+  }
 }
 
 /* ── Orb drift animations (outside @layer, opt-in motion) ── */
